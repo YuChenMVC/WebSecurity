@@ -57,6 +57,78 @@ Razor Pages也要加
 ```
 <br>
 
+## Cross-Site Scripting, XSS
+
+攻擊方式
+
+瀏覽器不會判別腳本語言是否為惡意, 藉以注入惡意的JavaScript或HTML payload
+
+>這樣好像沒什麼
+
+```javascript
+<script>alert('OAO')</script>
+```
+
+>如果這樣 使用者知道被攻擊了
+
+```C#
+<style> *{background:#00FF00;}</style>
+```
+
+>還有這樣 不僅彈出視窗 連cookie也噴出來了
+
+```javascript
+<script>alert(document.cookie)</script>
+```
+
+<br>
+
+1. `使用內建.NET Core`
+
+.NET Core編碼器可以透過注入設定
+```C#
+public class HomeController : Controller
+{
+    HtmlEncoder _htmlEncoder;
+    JavaScriptEncoder _javaScriptEncoder;
+    UrlEncoder _urlEncoder;
+
+    public HomeController(HtmlEncoder htmlEncoder,
+                          JavaScriptEncoder javascriptEncoder,
+                          UrlEncoder urlEncoder)
+    {
+        _htmlEncoder = htmlEncoder;
+        _javaScriptEncoder = javascriptEncoder;
+        _urlEncoder = urlEncoder;
+    }
+}
+```
+編碼方法
+```C#
+var js = _javaScriptEncoder.Encode(字串);
+```
+2. `限制存取`
+
+限制Cookie存取
+```C#
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+});
+```
+3. `編碼`
+
+HTML編碼
+```html
+&    &amp;
+<    &lt;
+>    &gt;
+"    &quot;
+'    &#x27;
+```
+以及JavaScript, Css, URL編碼
+
+<br>
 
 <!--
 
