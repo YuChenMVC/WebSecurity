@@ -109,10 +109,10 @@ var js = _javaScriptEncoder.Encode(字串);
 ```
 2. `限制存取`
 
-限制Cookie存取
 ```C#
 builder.Services.ConfigureApplicationCookie(options =>
 {
+    // 限制Cookie只能由HTTP存取
     options.Cookie.HttpOnly = true;
 });
 ```
