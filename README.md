@@ -7,7 +7,7 @@
 非法SQL指令透過輸入框傳送而程式又忽略字元檢查下入侵資料庫
 
 舉例 以下為設計不良的程式邏輯
-```C#
+```csharp
 string sql = "select * from Users"
 
 if(!string.IsNullOrWhiteSpace(name))
@@ -27,7 +27,7 @@ select * from Users where Name = '' or '1'='1'
 ***解決方案***
 
 `使用參數化查詢`
-```C#
+```csharp
 command.Parameters.AddWithValue("@name", Request.Query["name"].ToString());
 ```
 
@@ -37,7 +37,7 @@ command.Parameters.AddWithValue("@name", Request.Query["name"].ToString());
 
 `使用內建.NET Core`
 
-```C#
+```csharp
 [Route("Home/About/{id}")]
 ```
 如果 {id} 為 int 型別,
@@ -61,7 +61,7 @@ command.Parameters.AddWithValue("@name", Request.Query["name"].ToString());
 每個POST會分2個不同的值到Server驗證, 確保為合法
 <br>
 先註冊Service
-```C#
+```csharp
 builder.Services.AddAntiforgery(options =>
 {
     options.FormFieldName = "AntiforgeryFieldname";
@@ -70,7 +70,7 @@ builder.Services.AddAntiforgery(options =>
 });
 ```
 還有Controller
-```C#
+```csharp
 [AutoValidateAntiforgeryToken]
 ```
 Razor Pages也要加
@@ -95,7 +95,7 @@ Razor Pages也要加
 
 >如果這樣 使用者知道被攻擊了
 
-```C#
+```javascript
 <style> *{background:#00FF00;}</style>
 ```
 
@@ -110,7 +110,7 @@ Razor Pages也要加
 1. `使用內建.NET Core`
 
 .NET Core編碼器可以透過注入設定
-```C#
+```csharp
 public class HomeController : Controller
 {
     HtmlEncoder _htmlEncoder;
@@ -128,12 +128,12 @@ public class HomeController : Controller
 }
 ```
 編碼方法
-```C#
+```csharp
 var js = _javaScriptEncoder.Encode(字串);
 ```
 2. `限制存取`
 
-```C#
+```csharp
 builder.Services.ConfigureApplicationCookie(options =>
 {
     // 限制Cookie只能由HTTP存取
