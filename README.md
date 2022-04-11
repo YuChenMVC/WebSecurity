@@ -1,4 +1,4 @@
-# https://yuchenmvc.github.io/WebSecurity/ 網頁版較美觀
+# https://yuchenmvc.github.io/WebSecurity/ 網頁版
 
 ## SQL Injection
 
