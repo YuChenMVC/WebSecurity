@@ -1,8 +1,30 @@
 # WebSecurity
 
-<br>
-
 ## SQL Injection
+
+***攻擊方式***
+
+非法SQL指令透過輸入框傳送而程式又忽略字元檢查下入侵資料庫
+
+舉例 以下為設計不良的程式邏輯
+```C#
+string sql = "select * from Users"
+
+if(!string.IsNullOrWhiteSpace(name))
+{   //熟悉的SQL語法最對味
+    sql += " where Name = '" + name + "'";
+}
+```
+原本預期語法為 
+```sql
+select * from Users where Name = 'Alice'
+```
+但name在輸入框改成 <font color="red">' or '1'='1 </font>危險語法會變成
+```sql
+select * from Users where Name = '' or '1'='1'
+```
+
+***解決方案***
 
 1. `使用參數化查詢`
 ```C#
@@ -14,6 +36,7 @@ command.Parameters.AddWithValue("@name", Request.Query["name"].ToString());
 當執行LINQ query時, 到SQL Server會轉成參數查詢
 
 3. `使用內建.NET Core`
+
 ```C#
 [Route("Home/About/{id}")]
 ```
@@ -26,9 +49,10 @@ command.Parameters.AddWithValue("@name", Request.Query["name"].ToString());
 注入攻擊可能執行刪除TABLE等指令, 但網站需要刪除表格嗎, 可能很少,
 <br>
 提供盡可能的低權限至少使攻擊指令無法執行
-<br>
 
 ## Cross-Site Request Forgery, CSRF
+
+***解決方案***
 
 `以.NET Core為例`
 <br>
@@ -59,7 +83,7 @@ Razor Pages也要加
 
 ## Cross-Site Scripting, XSS
 
-攻擊方式
+***攻擊方式***
 
 瀏覽器不會判別腳本語言是否為惡意, 藉以注入惡意的JavaScript或HTML payload
 
@@ -75,13 +99,13 @@ Razor Pages也要加
 <style> *{background:#00FF00;}</style>
 ```
 
->還有這樣 不僅彈出視窗 連cookie也噴出來了
+><font color="red">危險語法</font> 不僅彈出視窗 連cookie也噴出來了
 
 ```javascript
 <script>alert(document.cookie)</script>
 ```
 
-<br>
+***解決方案***
 
 1. `使用內建.NET Core`
 
