@@ -107,7 +107,7 @@ Razor Pages也要加
 
 ***解決方案***
 
-1. `使用內建.NET Core`
+`使用內建.NET Core`
 
 .NET Core編碼器可以透過注入設定
 ```csharp
@@ -131,7 +131,7 @@ public class HomeController : Controller
 ```csharp
 var js = _javaScriptEncoder.Encode(字串);
 ```
-2. `限制存取`
+`限制Cookie存取`
 
 ```csharp
 builder.Services.ConfigureApplicationCookie(options =>
@@ -140,7 +140,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.HttpOnly = true;
 });
 ```
-3. `編碼`
+`HTML JavaScript CSS URL編碼`
 
 HTML編碼
 ```html
