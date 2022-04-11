@@ -26,16 +26,16 @@ select * from Users where Name = '' or '1'='1'
 
 ***解決方案***
 
-1. `使用參數化查詢`
+`使用參數化查詢`
 ```C#
 command.Parameters.AddWithValue("@name", Request.Query["name"].ToString());
 ```
 
-2. `使用LINQ`
+`使用LINQ`
 
 當執行LINQ query時, 到SQL Server會轉成參數查詢
 
-3. `使用內建.NET Core`
+`使用內建.NET Core`
 
 ```C#
 [Route("Home/About/{id}")]
@@ -44,7 +44,7 @@ command.Parameters.AddWithValue("@name", Request.Query["name"].ToString());
 <br>
 那麼攻擊者試圖加奇怪的字串, 不會被解析為 int, 以防止資料庫注入攻擊
 
-4. `盡可能的最低權限`
+`盡可能的最低權限`
 
 注入攻擊可能執行刪除TABLE等指令, 但網站需要刪除表格嗎, 可能很少,
 <br>
